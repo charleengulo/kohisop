@@ -17,7 +17,7 @@ Case-Based 01: Kohisop_Kelompok 9
 
 ## Pembagian Tugas
 1. Bernadette Aster Masdah Ngati Sinaga – 255150407111006
-- Pengenaan Pajak
+- Pengenaan Pajak: TaxCalculator.java
 
 2. Charleen Samaeri Gulo – 255150401111027
 - Mata Uang Pembayaran: Currency.java, IDR.java, USD.java, EUR.java, JPY.java, dan MYR.java
