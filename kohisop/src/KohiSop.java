@@ -95,7 +95,7 @@ public class KohiSop {
         }
 
         int addQty = readQuantity(item, remaining,
-            "  Tambah kuantitas (1-" + remaining + " | 0/S=batal | CC=batal pesan): ");
+            "  Tambah kuantitas (1-" + remaining + " | Enter=1 | 0/S=batal item | CC=batal pesan): ");
         if (addQty == -1) return null;
         if (addQty == 0) {
           System.out.println("[INFO] Penambahan '" + item.getName() + "' dibatalkan.");
@@ -124,7 +124,7 @@ public class KohiSop {
 
         int qty = readQuantity(item, item.getMaxQuantity(),
             "  Kuantitas (1-" + item.getMaxQuantity()
-                + " | 0/S=batal item | CC=batal pesan): ");
+                + " | Enter=1 | 0/S=batal item | CC=batal pesan): ");
         if (qty == -1) return null;
         if (qty == 0) {
           System.out.println("[INFO] '" + item.getName() + "' tidak ditambahkan.");
