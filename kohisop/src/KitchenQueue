@@ -1,0 +1,109 @@
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Stack;
+
+public class KitchenQueue {
+
+  private final PriorityQueue<OrderItem> foodQueue =
+    new PriorityQueue<>(
+        Comparator.comparingInt(
+            (OrderItem oi) -> oi.getMenuItem().getPrice()
+        ).reversed()
+    );
+
+  private final Stack<OrderItem> drinkStack = new Stack<>();
+
+  private int pendingCustomers = 0;
+  private static final int BATCH_SIZE = 3;
+
+  public boolean addOrder(Order order) {
+    for (OrderItem oi : order.getFoodItems()) {
+      foodQueue.offer(oi);
+    }
+
+    for (OrderItem oi : order.getDrinkItems()) {
+      drinkStack.push(oi);
+    }
+
+    pendingCustomers++;
+
+    if (pendingCustomers >= BATCH_SIZE) {
+      pendingCustomers = 0;
+      return true;
+    }
+
+    return false;
+  }
+
+  public int getPendingCustomers() {
+    return pendingCustomers;
+  }
+
+  public boolean hasFoodOrders() {
+    return !foodQueue.isEmpty();
+  }
+
+  public boolean hasDrinkOrders() {
+    return !drinkStack.isEmpty();
+  }
+
+  public String printKitchenOrders() {
+    StringBuilder sb = new StringBuilder();
+    String sep = "=".repeat(60);
+
+    sb.append(sep).append("\n");
+    sb.append("                 DAFTAR PROSES TIM DAPUR\n");
+    sb.append(sep).append("\n");
+
+    sb.append("[ MAKANAN - urut prioritas harga tertinggi ]\n");
+
+    if (foodQueue.isEmpty()) {
+      sb.append("  (tidak ada pesanan makanan)\n");
+    } else {
+      PriorityQueue<OrderItem> tmp = new PriorityQueue<>(foodQueue);
+
+      foodQueue.clear();
+
+      int no = 1;
+
+      while (!tmp.isEmpty()) {
+        OrderItem oi = tmp.poll();
+
+        sb.append(
+            String.format("  %d. [%s] %s x%d (Rp%d.000)%n", no++, oi.getMenuItem().getCode(),
+            oi.getMenuItem().getName(), oi.getQuantity(), oi.getMenuItem().getPrice()));
+      }
+    }
+
+    sb.append("\n");
+
+    sb.append("[ MINUMAN - urut Last-Ordered-First-Served ]\n");
+
+    if (drinkStack.isEmpty()) {
+      sb.append("  (tidak ada pesanan minuman)\n");
+    } else {
+      Stack<OrderItem> tmp = new Stack<>();
+      tmp.addAll(drinkStack);
+
+      drinkStack.clear();
+
+      int no = 1;
+
+      while (!tmp.isEmpty()) {
+        OrderItem oi = tmp.pop();
+
+        sb.append(
+            String.format("  %d. [%s] %s x%d%n", no++, oi.getMenuItem().getCode(), 
+            oi.getMenuItem().getName(), oi.getQuantity()));
+      }
+    }
+
+    sb.append(sep).append("\n");
+
+    String result = sb.toString();
+
+    System.out.print(result);
+
+    return result;
+  }
+}
