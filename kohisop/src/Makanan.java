@@ -5,13 +5,9 @@ public class Makanan extends MenuItem {
   }
 
   @Override
-  public int getMaxQuantity() {
-    return 2;
-  }
+  public int getMaxQuantity() { return 2; }
 
   @Override
-  public String getCategory() {
-    return "Makanan";
-  }
+  public String getCategory() { return "Makanan"; }
 
 }
